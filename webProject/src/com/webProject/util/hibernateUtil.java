@@ -15,9 +15,10 @@ public class hibernateUtil {
 	
 static SessionFactory sessionFactoryObj;
 	
+	//SessionFactory is returning null in DAO classes, working on a fix...
 	private static SessionFactory buildSessionFactory() {
 		Configuration configObj = new Configuration();
-		configObj.configure("hibernate.cfg.xml");
+		configObj.configure("/hibernate.cfg.xml");
 		
 		configObj.addAnnotatedClass(Users.class);
 		configObj.addAnnotatedClass(Threads.class);
