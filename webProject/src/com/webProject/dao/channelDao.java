@@ -11,7 +11,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 
-import com.webProject.bean.ChannelFollowers;
 import com.webProject.bean.Channels;
 import com.webProject.bean.Users;
 import com.webProject.util.hibernateUtil;
@@ -33,31 +32,6 @@ public class channelDao {
 			
 			sessionObj.getTransaction().commit();
 			return "Channel has been saved!";
-		} catch(Exception e) {
-			sessionObj.getTransaction().rollback();
-			e.printStackTrace();
-			return "Error";
-		} finally {
-			if(sessionObj != null) {
-				sessionObj.close();
-			}
-		}	
-	}
-	
-	public String followChannel(Channels channel, Users user) {
-		Session sessionObj = null;
-		
-		try {
-			sessionObj = hibernateUtil.getSessionFactory().openSession();
-			sessionObj.beginTransaction();
-			
-			ChannelFollowers follower = new ChannelFollowers();
-			follower.setUser(user);
-			follower.setChannel(channel);
-			sessionObj.save(follower);
-			
-			sessionObj.getTransaction().commit();
-			return "Channel has been followed!";
 		} catch(Exception e) {
 			sessionObj.getTransaction().rollback();
 			e.printStackTrace();

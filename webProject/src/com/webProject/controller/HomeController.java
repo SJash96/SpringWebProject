@@ -116,13 +116,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "channels", method = RequestMethod.GET)
-	public String channelsPage(ModelMap model, @RequestParam(required = false) String channelCreateMessage, @RequestParam(required = false) String channelFollowMessage,  HttpServletRequest request) {
+	public String channelsPage(ModelMap model, @RequestParam(required = false) String channelCreateMessage,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		channelDao channeldao = new channelDao();
 		model.addAttribute("listofchannels", channeldao.getAllChannels());
 		model.addAttribute("channelCreateMessage", channelCreateMessage);
-		model.addAttribute("channelFollowMessage", channelFollowMessage);
 		
 		model.addAttribute("channel", new Channels());
 		model.addAttribute("session", session);
@@ -136,7 +135,6 @@ public class HomeController {
 		
 		channelDao channeldao = new channelDao();
 		model.addAttribute("channelCreateMessage", channeldao.createChannel(channel, ((Users) session.getAttribute("user"))));
-		model.addAttribute("channelFollowMessage", channeldao.followChannel(channel, ((Users) session.getAttribute("user"))));
 		
 		return "redirect:/channels";
 	}

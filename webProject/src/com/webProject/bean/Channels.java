@@ -49,6 +49,4 @@ public class Channels {
 	@OrderBy("threadcreated desc")
 	private List<Threads> threads;
 	
-	@OneToMany(mappedBy = "channel", fetch = FetchType.EAGER)
-	private List<ChannelFollowers> followers;
 }

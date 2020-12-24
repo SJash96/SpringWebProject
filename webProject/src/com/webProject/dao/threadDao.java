@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.webProject.bean.Channels;
@@ -78,6 +79,7 @@ public class threadDao {
 	
 	public List<Threads> getAllThreads() {
 		Session sessionObj = null;
+		System.out.println(sessionObj = hibernateUtil.getSessionFactory().openSession());
 		
 		try {
 			sessionObj = hibernateUtil.getSessionFactory().openSession();
@@ -96,7 +98,7 @@ public class threadDao {
 			
 			sessionObj.getTransaction().commit();
 			return null;
-		} catch(Exception e) {
+		} catch(HibernateException e) {
 			sessionObj.getTransaction().rollback();
 			e.printStackTrace();
 			return null;
