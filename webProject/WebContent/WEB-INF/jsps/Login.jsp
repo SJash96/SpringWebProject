@@ -21,6 +21,9 @@
 	      <li class="nav-item">
 	        <a class="nav-link" href="${welcomUrl}">Home</a>
 	      </li>
+	      <li class="nav-item">
+			<a class="nav-link" href="channels">Channels</a>
+		  </li>
 	      <li class="nav-item active">
 	        <a class="nav-link" href="login">Login<span class="sr-only">(current)</span></a>
 	      </li>
