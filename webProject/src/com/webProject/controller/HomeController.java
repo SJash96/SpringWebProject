@@ -6,7 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ import com.webProject.dao.usersDao;
 @Controller
 public class HomeController {
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@GetMapping(value = "/")
 	public String welcomePage(ModelMap model, @RequestParam(required = false) String threadCreateMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -37,7 +39,7 @@ public class HomeController {
 		return "Welcome";
 	}
 	
-	@RequestMapping(value = "login", method = RequestMethod.GET)
+	@GetMapping(value = "login")
 	public String loginPage(ModelMap model) {
 		
 		model.addAttribute("user", new Users());
@@ -46,7 +48,7 @@ public class HomeController {
 		return "Login";
 	}
 	
-	@RequestMapping(value = "register", method = RequestMethod.GET)
+	@GetMapping(value = "register")
 	public String registerPage(ModelMap model, @RequestParam(required = false) String userCreateMessage) {
 		
 		model.addAttribute("user", new Users());
@@ -56,7 +58,7 @@ public class HomeController {
 		return "Register";
 	}
 	
-	@RequestMapping(value = "addUser", method = RequestMethod.POST)
+	@PostMapping(value = "addUser")
 	public String addUser(ModelMap model, @ModelAttribute("user") Users user) {
 		
 		usersDao userdao = new usersDao();
@@ -65,7 +67,7 @@ public class HomeController {
 		return "redirect:/register";
 	}
 	
-	@RequestMapping(value = "account", method = RequestMethod.GET)
+	@GetMapping(value = "account")
 	public String accountPage(ModelMap model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -75,7 +77,7 @@ public class HomeController {
 		return "Account";
 	}
 	
-	@RequestMapping(value = "editUser", method = RequestMethod.POST)
+	@PostMapping(value = "editUser")
 	public String editUser(ModelMap model, @ModelAttribute("user") Users user, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
 		
@@ -87,7 +89,7 @@ public class HomeController {
 		return "redirect:/account";
 	}
 	
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	@GetMapping(value = "logout")
 	public String logout(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(false);
 		
@@ -101,7 +103,7 @@ public class HomeController {
 		return "Welcome";
 	}
 	
-	@RequestMapping(value = "loginUser", method = RequestMethod.POST)
+	@PostMapping(value = "loginUser")
 	public String loginUser(ModelMap model, @ModelAttribute("user") Users user, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = null;
 		
@@ -115,7 +117,7 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value = "channels", method = RequestMethod.GET)
+	@GetMapping(value = "channels")
 	public String channelsPage(ModelMap model, @RequestParam(required = false) String channelCreateMessage,  HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -129,7 +131,7 @@ public class HomeController {
 		return "Channels";
 	}
 	
-	@RequestMapping(value = "createChannel", method = RequestMethod.POST)
+	@PostMapping(value = "createChannel")
 	public String createChannel(ModelMap model, @ModelAttribute("channel") Channels channel, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -139,7 +141,7 @@ public class HomeController {
 		return "redirect:/channels";
 	}
 	
-	@RequestMapping(value = "viewChannel", method = RequestMethod.GET)
+	@GetMapping(value = "viewChannel")
 	public String viewChannel(ModelMap model, @RequestParam int channel_id, @RequestParam(required = false) String threadCreateMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -154,7 +156,7 @@ public class HomeController {
 		return "ChannelInfo";
 	}
 	
-	@RequestMapping(value = "createThread", method = RequestMethod.POST)
+	@PostMapping(value = "createThread")
 	public String createThread(ModelMap model, @ModelAttribute("thread") Threads thread, @RequestParam int channel_id, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -165,7 +167,7 @@ public class HomeController {
 		return "redirect:/viewChannel?channel_id=" + channel_id;
 	}
 	
-	@RequestMapping(value = "viewThread", method = RequestMethod.GET)
+	@GetMapping(value = "viewThread")
 	public String viewThread(ModelMap model, @RequestParam int thread_id, @RequestParam(required = false) String replyCreateMessage, @RequestParam(required = false) String replyDeleteMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -181,7 +183,7 @@ public class HomeController {
 		return "ThreadInfo";
 	}
 	
-	@RequestMapping(value = "createReply", method = RequestMethod.POST)
+	@PostMapping(value = "createReply")
 	public String createReply(ModelMap model, @ModelAttribute("reply") Replies reply, @RequestParam int thread_id, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
@@ -192,7 +194,7 @@ public class HomeController {
 		return "redirect:/viewThread?thread_id=" + thread_id;
 	}
 	
-	@RequestMapping(value = "deleteReply", method = RequestMethod.GET)
+	@GetMapping(value = "deleteReply")
 	public String deleteReply(ModelMap model, @RequestParam int reply_id) {
 		
 		replyDao replydao = new replyDao();
@@ -202,7 +204,7 @@ public class HomeController {
 		return "ThreadInfo";
 	}
 	
-	@RequestMapping(value = "editReply", method = RequestMethod.POST)
+	@PostMapping(value = "editReply")
 	public String deleteReply(ModelMap model, @ModelAttribute("reply") Replies reply, @RequestParam int reply_id) {
 		
 		replyDao replydao = new replyDao();
