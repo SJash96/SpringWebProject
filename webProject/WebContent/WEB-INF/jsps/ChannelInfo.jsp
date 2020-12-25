@@ -130,6 +130,9 @@
 		        <a class="nav-link" href="${welcomUrl}">Home</a>
 		      </li>
 		      <li class="nav-item">
+			    <a class="nav-link" href="channels">Channels</a>
+			  </li>
+		      <li class="nav-item">
 		        <a class="nav-link" href="login">Login</a>
 		      </li>
 		      <li class="nav-item">
