@@ -91,10 +91,14 @@
 		</nav>
 		<div class="container">
 			<c:forEach items="${listofchannels}" var="allChannels">
-				<a href="viewChannel?channel_id=${allChannels.getCid()}">
-					${allChannels.getChannelname()}
-				</a>
-			</c:forEach>
+    			<div class="card">
+    				<div class="card-body">
+	    				<h5 class="card-title">${allChannels.getChannelname()}</h5>
+						<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
+						<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link">Enter Channel</a> 
+    				</div> 						
+    			</div>	
+    		</c:forEach>
 		</div>
 	</c:if>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

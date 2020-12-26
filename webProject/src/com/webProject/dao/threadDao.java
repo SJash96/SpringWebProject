@@ -22,6 +22,7 @@ public class threadDao {
 	public String createThread(Threads thread, Channels channel, Users user) {
 		Session sessionObj = null;
 		
+		
 		try {
 			sessionObj = hibernateUtil.getSessionFactory().openSession();
 			sessionObj.beginTransaction();
