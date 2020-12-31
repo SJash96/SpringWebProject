@@ -56,7 +56,8 @@
 		<c:forEach items="${listOfThreads}" var="allThreads">
 			<div class="card mt-4">
 				<div class="card-body text-muted">
-					Posted by ${allThreads.getUser().getUsername()} on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${allThreads.getThreadcreated()}" />
+					Posted by <b>${allThreads.getUser().getUsername()}</b>
+					on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${allThreads.getThreadcreated()}" />
 				</div>
   				<div class="card-body">
   					<h3 class="card-title">${allThreads.getThreadname()}</h3>
@@ -118,8 +119,8 @@
 			<c:forEach items="${listOfThreads}" var="allThreads">
 				<div class="card mt-4">
 					<div class="card-body text-muted">
-						Posted by ${allThreads.getUser().getUsername()}
-						on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${allThreads.getThreadcreated()}" />
+						Posted by <b>${allThreads.getUser().getUsername()}</b>
+						on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${allThreads.getThreadcreated()}" />
 					</div>
 	  				<div class="card-body">
 	  					<h3 class="card-title">${allThreads.getThreadname()}</h3>
