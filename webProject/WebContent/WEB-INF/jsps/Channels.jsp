@@ -55,11 +55,17 @@
 		  			<button type="submit" class="btn btn-light">Create Channel</button>
 		  		</div>
 			</form:form>
+			<div class="container">
 			<c:forEach items="${listofchannels}" var="allChannels">
-				<a href="viewChannel?channel_id=${allChannels.getCid()}">
-					${allChannels.getChannelname()}
-				</a>
-			</c:forEach>
+    			<div class="card">
+    				<div class="card-body">
+	    				<h5 class="card-title">${allChannels.getChannelname()}</h5>
+						<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
+						<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link">Enter Channel</a> 
+    				</div> 						
+    			</div>	
+    		</c:forEach>
+		</div>
 		</div>
 	</c:if>
 	<c:if test ="${session == null && session.getAttribute('user') == null}">

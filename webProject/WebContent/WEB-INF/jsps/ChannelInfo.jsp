@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<title>Welcome</title>
+<title>${currentChannel.getChannelname()}</title>
 </head>
 <body>
 	<c:if test ="${session != null && session.getAttribute('user') != null}">
@@ -41,7 +41,8 @@
 		<div class="container">
 			<div class="card mt-4">
 				<div class="card-body text-muted">
-					Posted by ${currentChannel.getUser().getUsername()} on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${currentChannel.getChannelcreated()}" />
+					Posted by <b>${currentChannel.getUser().getUsername()}</b>
+					on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${currentChannel.getChannelcreated()}" />
 				</div>
   				<div class="card-body">
   					<h3 class="card-title">${currentChannel.getChannelname()}</h3>
@@ -84,7 +85,8 @@
 			<c:forEach items="${currentChannel.getThreads()}" var="channelThreads">
   				<div class="card mt-4">
 					<div class="card-body text-muted">
-						Posted by ${channelThreads.getUser().getUsername()} on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${channelThreads.getThreadcreated()}" />
+						Posted by <b>${channelThreads.getUser().getUsername()}</b>
+						on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${channelThreads.getThreadcreated()}" />
 					</div>
 		  			<div class="card-body">
 		  				<h3 class="card-title">${channelThreads.getThreadname()}</h3>
@@ -147,7 +149,8 @@
 		<div class="container">
 			<div class="card mt-4">
 				<div class="card-body text-muted">
-					Posted by ${currentChannel.getUser().getUsername()} on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${currentChannel.getChannelcreated()}" />
+					Posted by <b>${currentChannel.getUser().getUsername()}</b>
+					on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${currentChannel.getChannelcreated()}" />
 				</div>
 	  			<div class="card-body">
 	  				<h3 class="card-title">${currentChannel.getChannelname()}</h3>
@@ -168,8 +171,8 @@
 			<c:forEach items="${currentChannel.getThreads()}" var="channelThreads">
   				<div class="card mt-4">
 					<div class="card-body text-muted">
-						Posted by ${channelThreads.getUser().getUsername()}
-						on <fmt:formatDate pattern="yyyy-MM-dd hh:mm a z" value="${channelThreads.getThreadcreated()}" />
+						Posted by <b>${channelThreads.getUser().getUsername()}</b>
+						on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${channelThreads.getThreadcreated()}" />
 					</div>
 		  			<div class="card-body">
 		  				<h3 class="card-title">${channelThreads.getThreadname()}</h3>
