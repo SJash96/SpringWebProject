@@ -55,20 +55,24 @@
 		  			<button type="submit" class="btn btn-light">Create Channel</button>
 		  		</div>
 			</form:form>
-			<div class="container">
-			<c:forEach items="${listofchannels}" var="allChannels">
-    			<div class="card">
-    				<div class="card-body">
-	    				<h5 class="card-title">${allChannels.getChannelname()}</h5>
-						<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
-						<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link">Enter Channel</a> 
-    				</div> 						
-    			</div>	
+		</div>
+		<div class="container-fluid">
+			<c:forEach items="${listofchannels}" var="allChannels" varStatus="status">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card">
+    						<div class="card-body">
+	    						<h5 class="card-title">${allChannels.getChannelname()}</h5>
+								<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
+								<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link"></a> 
+    						</div> 						
+    					</div>
+					</div>
+				</div>	
     		</c:forEach>
 		</div>
-		</div>
 	</c:if>
-	<c:if test ="${session == null && session.getAttribute('user') == null}">
+	<c:if test ="${session == null || session.getAttribute('user') == null}">
 		<c:url value="/" var="welcomUrl"/>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="${welcomUrl}">My Blogger</a>
@@ -95,15 +99,19 @@
 			    </div>
 			</div>
 		</nav>
-		<div class="container">
-			<c:forEach items="${listofchannels}" var="allChannels">
-    			<div class="card">
-    				<div class="card-body">
-	    				<h5 class="card-title">${allChannels.getChannelname()}</h5>
-						<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
-						<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link">Enter Channel</a> 
-    				</div> 						
-    			</div>	
+		<div class="container-fluid">
+			<c:forEach items="${listofchannels}" var="allChannels" varStatus="status">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="card">
+    						<div class="card-body">
+	    						<h5 class="card-title">${allChannels.getChannelname()}</h5>
+								<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
+								<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link"></a> 
+    						</div> 						
+    					</div>
+					</div>
+				</div>	
     		</c:forEach>
 		</div>
 	</c:if>
