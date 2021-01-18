@@ -2,7 +2,6 @@
     pageEncoding="ISO-8859-1" session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -37,26 +36,11 @@
 		    </div>
 		  </div>
 		</nav>
-		<h6>${threadCreateMessage}</h6>
 		<div class="container">
-		<c:url var="url" value="createThread" />
-		<form:form modelAttribute="thread" method="post" action="${url}">
-	  		<div class="form-group">
-	    		<label for="ThreadName">Thread Name</label>
-	    		<form:input path="threadname" type="text" class="form-control" id="ThreadName" placeholder="Enter thread name..." />
-	  		</div>
-	  		<div class="form-group">
-	    		<label for="ThreadPost">Post</label>
-	    		<form:textarea path="threadpost" class="form-control" id="ThreadPost" row="3" placeholder="Enter your post..." />
-	  		</div>
-	  		<div class="text-center">
-	  		<button type="submit" class="btn btn-light">Create Thread</button>
-	  		</div>
-		</form:form>
 		<c:forEach items="${listOfThreads}" var="allThreads">
 			<div class="card mt-4">
 				<div class="card-body text-muted">
-					Posted by <b>${allThreads.getUser().getUsername()}</b>
+					Posted by <b>${allThreads.getUser().getUsername()}</b> in <a href="viewChannel?channel_id=${allThreads.getChannel().getCid()}" class="badge badge-light">${allThreads.getChannel().getChannelname()}</a>
 					on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${allThreads.getThreadcreated()}" />
 				</div>
   				<div class="card-body">
@@ -119,7 +103,7 @@
 			<c:forEach items="${listOfThreads}" var="allThreads">
 				<div class="card mt-4">
 					<div class="card-body text-muted">
-						Posted by <b>${allThreads.getUser().getUsername()}</b>
+						Posted by <b>${allThreads.getUser().getUsername()}</b> in <a href="viewChannel?channel_id=${allThreads.getChannel().getCid()}" class="badge badge-light">${allThreads.getChannel().getChannelname()}</a>
 						on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${allThreads.getThreadcreated()}" />
 					</div>
 	  				<div class="card-body">
