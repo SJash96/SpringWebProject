@@ -111,4 +111,70 @@ function saveScrollLocation() {
 
 // Account.jsp javascript section----------------------------------------------------------------------------
 
+function showhideUsername(funcEle) {
+	var parent = document.getElementById("editUsername");
+	var child = parent.getElementsByTagName("div");
+	var childForm = child[1].firstElementChild;
+	if(child[0].style.display == "") {
+		child[0].style.display = "none";
+		child[1].style.display = "";
+		funcEle.innerText = "Close";
+	}
+	else {
+		child[0].style.display = "";
+		child[1].style.display = "none";
+		funcEle.innerText = "Edit UserName";
+		childForm.reset();
+	}
+}
 
+function showhideEmail(funcEle) {
+	var parent = document.getElementById("editEmail");
+	var child = parent.getElementsByTagName("div");
+	var childForm = child[1].firstElementChild;
+	if(child[0].style.display == "") {
+		child[0].style.display = "none";
+		child[1].style.display = "";
+		funcEle.innerText = "Close";
+	}
+	else {
+		child[0].style.display = "";
+		child[1].style.display = "none";
+		funcEle.innerText = "Edit Email";
+		childForm.reset();
+	}
+}
+
+function showhidePhonenumber(funcEle) {
+	var parent = document.getElementById("editPhonenumber");
+	var child = parent.getElementsByTagName("div");
+	var childForm = child[1].firstElementChild;
+	if(child[0].style.display == "") {
+		child[0].style.display = "none";
+		child[1].style.display = "";
+		funcEle.innerText = "Close";
+	}
+	else {
+		child[0].style.display = "";
+		child[1].style.display = "none";
+		funcEle.innerText = "Edit PhoneNumber";
+		childForm.reset();
+	}
+}
+
+function showhideDateofbirth(funcEle) {
+	var parent = document.getElementById("editDateofbirth");
+	var child = parent.getElementsByTagName("div");
+	var childForm = child[1].firstElementChild;
+	if(child[0].style.display == "") {
+		child[0].style.display = "none";
+		child[1].style.display = "";
+		funcEle.innerText = "Close";
+	}
+	else {
+		child[0].style.display = "";
+		child[1].style.display = "none";
+		funcEle.innerText = "Edit DOB";
+		childForm.reset();
+	}
+}
