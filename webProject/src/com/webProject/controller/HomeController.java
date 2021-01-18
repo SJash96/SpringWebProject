@@ -24,7 +24,7 @@ import com.webProject.dao.usersDao;
 public class HomeController {
 	
 	@GetMapping(value = "/")
-	public String welcomePage(ModelMap model, @RequestParam(required = false) String threadCreateMessage, HttpServletRequest request) {
+	public String homePage(ModelMap model, @RequestParam(required = false) String threadCreateMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		threadDao threaddao = new threadDao();
@@ -34,7 +34,7 @@ public class HomeController {
 		model.addAttribute("thread", new Threads());
 		model.addAttribute("session", session);
 		
-		return "Welcome";
+		return "Home";
 	}
 	
 	@GetMapping(value = "login")
@@ -98,7 +98,7 @@ public class HomeController {
 		threadDao threaddao = new threadDao();
 		model.addAttribute("listOfThreads", threaddao.getAllThreads());
 		
-		return "Welcome";
+		return "Home";
 	}
 	
 	@PostMapping(value = "loginUser")
