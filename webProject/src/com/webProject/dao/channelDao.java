@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.collections4.ListUtils;
 import org.hibernate.Session;
 
 import com.webProject.bean.Channels;
@@ -74,7 +75,13 @@ public class channelDao {
 		}
 	}
 	
-	public List<Channels> getAllChannels() {
+	private List<List<Channels>> splitList(List<Channels> channel) {
+		List<List<Channels>> subSets = ListUtils.partition(channel, 4);
+		
+		return subSets;
+	}
+	
+	public List<List<Channels>> getAllChannels() {
 		Session sessionObj = null;
 		
 		try {
@@ -89,7 +96,7 @@ public class channelDao {
 			List<Channels> queryResult = query.getResultList();
 			
 			if(queryResult != null) {
-				return queryResult;
+				return splitList(queryResult);
 			}
 			
 			sessionObj.getTransaction().commit();
