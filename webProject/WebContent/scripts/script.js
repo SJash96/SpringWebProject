@@ -24,7 +24,7 @@ function showhideFunction(funcEle, Rid) {
 	}
 }
 
-function likeFunction(funcEle) {
+/*function likeFunction(funcEle) {
 	var parentEle = funcEle.parentElement;
 	var likebutton = funcEle.getElementsByTagName("svg")[0];
 	var dislikebutton = parentEle.getElementsByTagName("a")[1].firstElementChild;
@@ -62,7 +62,7 @@ function dislikeFunction(funcEle) {
 		dislikebutton.removeAttribute("class");
 		dislikebutton.setAttribute("class", "bi bi-hand-thumbs-down");
 	}
-}
+}*/
 
 /*$(document).ready(function() {
 	$('#replyForm').children('button').click(function(e) {
@@ -84,7 +84,7 @@ function dislikeFunction(funcEle) {
 	});
 });*/
 
-// Welcome.jsp javascript section----------------------------------------------------------------------------
+// Home.jsp javascript section----------------------------------------------------------------------------
 
 function getDateTime() {
 	var d = new Date();
@@ -108,3 +108,7 @@ function saveScrollLocation() {
 	var x = document.documentElement;
 	sessionStorage.setItem("scrollPos", x.scrollTop);
 }
+
+// Account.jsp javascript section----------------------------------------------------------------------------
+
+
