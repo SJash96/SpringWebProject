@@ -49,16 +49,16 @@ public class usersDao {
 			sessionObj.beginTransaction();
 			
 			Users usertu = sessionObj.load(Users.class, uid);
-			usertu.setUsername((user.getUsername().isBlank()) ? null : user.getUsername());
-			usertu.setEmail((user.getEmail().isBlank()) ? null : user.getEmail());
-			usertu.setPhonenumber((user.getPhonenumber().isBlank()) ? null : user.getPhonenumber());
+			usertu.setUsername((user.getUsername() == null) ? usertu.getUsername() : user.getUsername());
+			usertu.setEmail((user.getEmail() == null) ? usertu.getEmail() : user.getEmail());
+			usertu.setPhonenumber((user.getPhonenumber() == null) ? usertu.getPhonenumber() : user.getPhonenumber());
 			if(user.getDateofbirth() != null) {
 				java.util.Date utilDate = new SimpleDateFormat("yyyy-MM-dd").parse(user.getDateofbirth().toString());
 				Date sqlDate = new Date(utilDate.getTime());
 				usertu.setDateofbirth(sqlDate);
 			}
 			else {
-				usertu.setDateofbirth(null);
+				usertu.setDateofbirth(usertu.getDateofbirth());
 			}
 			sessionObj.update(usertu);
 			
