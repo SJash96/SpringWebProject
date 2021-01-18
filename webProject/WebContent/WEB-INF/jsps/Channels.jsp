@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -57,17 +58,25 @@
 			</form:form>
 		</div>
 		<div class="container-fluid">
-			<c:forEach items="${listofchannels}" var="allChannels" varStatus="status">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="card">
-    						<div class="card-body">
-	    						<h5 class="card-title">${allChannels.getChannelname()}</h5>
-								<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
-								<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link"></a> 
-    						</div> 						
-    					</div>
-					</div>
+			<c:forEach items="${listofchannels}" var="channelList">
+				<div class="row mt-4 mx-2">
+					<c:forEach items="${channelList}" var="channel">
+						<div class="col-md-3">
+							<div class="card">
+								<div class="card-body text-muted">
+									<span class="badge badge-secondary">${channel.getChannelcategory()}</span>
+									<br>
+									Posted by <b>${channel.getUser().getUsername()}</b>
+									on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${channel.getChannelcreated()}" />
+								</div>
+	    						<div class="card-body">
+		    						<h5 class="card-title">${channel.getChannelname()}</h5>
+									<p class="card-text">${channel.getChanneldescription()}</p>
+	    						</div> 
+	    						<a href="viewChannel?channel_id=${channel.getCid()}" class="stretched-link"></a> 						
+	    					</div>
+						</div>
+					</c:forEach>
 				</div>	
     		</c:forEach>
 		</div>
@@ -100,17 +109,25 @@
 			</div>
 		</nav>
 		<div class="container-fluid">
-			<c:forEach items="${listofchannels}" var="allChannels" varStatus="status">
-				<div class="row">
-					<div class="col-md-4">
-						<div class="card">
-    						<div class="card-body">
-	    						<h5 class="card-title">${allChannels.getChannelname()}</h5>
-								<h6 class="card-subtitle">Owner: ${allChannels.getUser().getUsername()}</h6>
-								<a href="viewChannel?channel_id=${allChannels.getCid()}" class="stretched-link"></a> 
-    						</div> 						
-    					</div>
-					</div>
+			<c:forEach items="${listofchannels}" var="channelList">
+				<div class="row mt-4 mx-2">
+					<c:forEach items="${channelList}" var="channel">
+						<div class="col-md-3">
+							<div class="card">
+								<div class="card-body text-muted">
+									<span class="badge badge-secondary">${channel.getChannelcategory()}</span>
+									<br>
+									Posted by <b>${channel.getUser().getUsername()}</b>
+									on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${channel.getChannelcreated()}" />
+								</div>
+	    						<div class="card-body">
+		    						<h5 class="card-title">${channel.getChannelname()}</h5>
+									<p class="card-text">${channel.getChanneldescription()}</p>
+	    						</div> 
+	    						<a href="viewChannel?channel_id=${channel.getCid()}" class="stretched-link"></a> 						
+	    					</div>
+						</div>
+					</c:forEach>
 				</div>	
     		</c:forEach>
 		</div>
