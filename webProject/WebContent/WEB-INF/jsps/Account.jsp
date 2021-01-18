@@ -37,25 +37,78 @@
 	<h1 class="text-center">Welcome ${session.getAttribute('user').getUsername()}</h1>
 	<div class="container">
 		<c:url var="url" value="editUser" />
-		<form:form modelAttribute="user" method="post" action="${url}">
-		  <div class="form-group">
-		    <label for="user">Username</label>
-		    <form:input path="username" type="text" class="form-control" id="user" placeholder="Username" value="${session.getAttribute('user').getUsername()}" />
-		  </div>
-		  <div class="form-group">
-		    <label for="em">Email</label>
-		    <form:input path="email" type="text" class="form-control" id="em" placeholder="Email" value="${session.getAttribute('user').getEmail()}" />
-		  </div>
-		  <div class="form-group">
-		    <label for="num">Phone Number</label>
-		    <form:input path="phonenumber" type="text" class="form-control" id="num" placeholder="PhoneNumber (xxx) xxx-xxxx" value="${session.getAttribute('user').getPhonenumber()}" />
-		  </div>
-		  <div class="form-group">
-		    <label for="dob">Date of Birth</label>
-		    <form:input path="dateofbirth" type="date" class="form-control" id="dob" value="${session.getAttribute('user').getDateofbirth()}" />
-		  </div>
-		  <button type="submit" class="btn btn-primary">Edit/Save</button>
-		</form:form>
+		<div id="editUsername">
+			<div>
+				${session.getAttribute('user').getUsername()}
+			</div>
+			<div style="display : none;">
+				<form:form modelAttribute="user" method="post" action="${url}">
+					<div class="input-group mb-3">
+						<form:input path="username" type="text" class="form-control" id="user" placeholder="Username" value="${session.getAttribute('user').getUsername()}" />
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-light">Edit/Save</button>
+						</div>
+					</div>
+				</form:form>
+			</div>
+			<div>
+				<button class="btn btn-outline-secondary" onclick="showhideUsername(this)">Edit UserName</button>
+			</div>
+		</div>
+		<div id="editEmail">
+			<div>
+				${session.getAttribute('user').getEmail()}
+			</div>
+			<div style="display : none;">
+				<form:form modelAttribute="user" method="post" action="${url}">
+		  			<div class="input-group mb-3">
+		    			<form:input path="email" type="text" class="form-control" id="em" placeholder="Email" value="${session.getAttribute('user').getEmail()}" />
+		    			<div class="input-group-append">
+							<button type="submit" class="btn btn-light">Edit/Save</button>
+						</div>
+		  			</div>
+				</form:form>
+			</div>
+			<div>
+				<button class="btn btn-outline-secondary" onclick="showhideEmail(this)">Edit Email</button>
+			</div>
+		</div>
+		<div id="editPhonenumber">
+			<div>
+				${session.getAttribute('user').getPhonenumber()}
+			</div>
+			<div style="display : none;">
+				<form:form modelAttribute="user" method="post" action="${url}">
+		  			<div class="input-group mb-3">
+		    			<form:input path="phonenumber" type="text" class="form-control" id="num" placeholder="PhoneNumber (xxx) xxx-xxxx" value="${session.getAttribute('user').getPhonenumber()}" />
+		    			<div class="input-group-append">
+							<button type="submit" class="btn btn-light">Edit/Save</button>
+						</div>
+		  			</div>
+				</form:form>
+			</div>
+			<div>
+				<button class="btn btn-outline-secondary" onclick="showhidePhonenumber(this)">Edit PhoneNumber</button>
+			</div>
+		</div>
+		<div id="editDateofbirth">
+			<div>
+				${session.getAttribute('user').getDateofbirth()}
+			</div>
+			<div style="display : none;">
+				<form:form modelAttribute="user" method="post" action="${url}">
+					<div class="input-group mb-3">
+						<form:input path="dateofbirth" type="date" class="form-control" id="dob" value="${session.getAttribute('user').getDateofbirth()}" />
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-light">Edit/Save</button>
+						</div>
+					</div>
+				</form:form>
+			</div>
+			<div>
+				<button class="btn btn-outline-secondary" onclick="showhideDateofbirth(this)">Edit DOB</button>
+			</div>
+		</div>	
 	</div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="<c:url value="/scripts/script.js" />"></script>
