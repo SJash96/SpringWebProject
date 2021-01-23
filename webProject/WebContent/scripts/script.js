@@ -4,6 +4,35 @@
  * Created 2020-11-01
  */
 
+// Home.jsp jquery section--------------------------------------------------------------------------------------
+
+function searchForThread(funcEle) {
+	var threadList = document.getElementById("threadList");
+	var searchedList = document.getElementById("searchedList");
+	if(funcEle.value.length > 0) {
+		if(threadList.style.display != "none") {
+			threadList.style.display = "none";
+			searchedList.style.display = "";
+		}
+		$.ajax({
+			type: "post",
+			url: "searchThreads",
+			data: "thread_name=" + funcEle.value,
+			success: function(res) {
+				console.log(res[0]);
+			},
+			error: function(req, err) {
+				console.log("Error" + err);
+			}
+		});
+	}
+	else {
+		threadList.style.display = "";
+		searchedList.style.display = "none";
+	}
+}
+
+
 // ThreadInfo.jsp javascript section----------------------------------------------------------------------------
 
 function showhideFunction(funcEle, Rid) {
