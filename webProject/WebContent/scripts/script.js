@@ -14,21 +14,39 @@ function searchForThread(funcEle) {
 			threadList.style.display = "none";
 			searchedList.style.display = "";
 		}
-		$.ajax({
-			type: "post",
-			url: "searchThreads",
-			data: "thread_name=" + funcEle.value,
-			success: function(res) {
-				console.log(res[0]);
-			},
-			error: function(req, err) {
-				console.log("Error" + err);
-			}
+		while(searchedList.hasChildNodes()) {
+			searchedList.removeChild(searchedList.firstChild);
+		}
+		$(document).ready(function(){
+			$.ajax({
+				type: "post",
+				url: "searchThreads",
+				data: "thread_name=" + funcEle.value,
+				success: function(res) {
+					//console.log(res)
+					$.each(res, function(k,v) {
+						var card = $("<div class='card mt-4'></div>");
+						var cardBody = $("<div class='card-body'></div>");
+						var cardTitle = $("<h3 class='card-title'>"+ v.threadname +"</h3>");
+						var cardText = $("<p class='card-text'>"+ v.threadpost +"</p>");
+						cardBody.append(cardTitle);
+						cardBody.append(cardText);
+						card.append(cardBody);
+						$("#searchedList").append(card);
+					});
+				},
+				error: function(req, err) {
+					console.log("Error" + err);
+				}
+			});
 		});
 	}
 	else {
 		threadList.style.display = "";
 		searchedList.style.display = "none";
+		while(searchedList.hasChildNodes()) {
+			searchedList.removeChild(searchedList.firstChild);
+		}
 	}
 }
 
