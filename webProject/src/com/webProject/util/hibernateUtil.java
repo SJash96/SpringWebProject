@@ -5,6 +5,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import com.webProject.bean.ChannelMembers;
 import com.webProject.bean.Channels;
 import com.webProject.bean.Replies;
 import com.webProject.bean.Threads;
@@ -23,6 +24,7 @@ static SessionFactory sessionFactoryObj;
 		configObj.addAnnotatedClass(Threads.class);
 		configObj.addAnnotatedClass(Replies.class);
 		configObj.addAnnotatedClass(Channels.class);
+		configObj.addAnnotatedClass(ChannelMembers.class);
 		
 		ServiceRegistry serverRegistryObj = new StandardServiceRegistryBuilder().applySettings(configObj.getProperties()).build();
 		

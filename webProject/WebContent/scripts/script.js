@@ -4,51 +4,39 @@
  * Created 2020-11-01
  */
 
-// Home.jsp jquery section--------------------------------------------------------------------------------------
+// Home.jsp javascript & jQuery section----------------------------------------------------------------------------
 
-function searchForThread(funcEle) {
-	var threadList = document.getElementById("threadList");
-	var searchedList = document.getElementById("searchedList");
-	if(funcEle.value.length > 0) {
-		if(threadList.style.display != "none") {
-			threadList.style.display = "none";
-			searchedList.style.display = "";
-		}
-		while(searchedList.hasChildNodes()) {
-			searchedList.removeChild(searchedList.firstChild);
-		}
-		$(document).ready(function(){
-			$.ajax({
-				type: "post",
-				url: "searchThreads",
-				data: "thread_name=" + funcEle.value,
-				success: function(res) {
-					//console.log(res)
-					$.each(res, function(k,v) {
-						var card = $("<div class='card mt-4'></div>");
-						var cardBody = $("<div class='card-body'></div>");
-						var cardTitle = $("<h3 class='card-title'>"+ v.threadname +"</h3>");
-						var cardText = $("<p class='card-text'>"+ v.threadpost +"</p>");
-						cardBody.append(cardTitle);
-						cardBody.append(cardText);
-						card.append(cardBody);
-						$("#searchedList").append(card);
-					});
-				},
-				error: function(req, err) {
-					console.log("Error" + err);
-				}
-			});
-		});
-	}
-	else {
-		threadList.style.display = "";
-		searchedList.style.display = "none";
-		while(searchedList.hasChildNodes()) {
-			searchedList.removeChild(searchedList.firstChild);
-		}
+function getDateTime() {
+	var d = new Date();
+	var x = document.getElementById("displayDateTime");
+	var date = d.toDateString();
+	var localTime = d.toLocaleTimeString();
+	x.innerHTML = date + "<br/>" + localTime;
+}
+
+getDateTime();
+setInterval(getDateTime,1000);
+
+onload = function() {
+	if(sessionStorage.getItem("scrollPos")) {
+		scrollTo(0, sessionStorage.getItem("scrollPos"));
+		sessionStorage.removeItem("scrollPos");
 	}
 }
+
+function saveScrollLocation() {
+	var x = document.documentElement;
+	sessionStorage.setItem("scrollPos", x.scrollTop);
+}
+
+$(document).ready(function(){
+	$("#searchBar").on("keyup", function() {
+		var inputVal = $(this).val().toLowerCase();
+		$(".card-title").each(function() {
+			$(this).parent().parent().toggle(($(this).text().toLowerCase().indexOf(inputVal) > -1));
+		});
+	})
+});
 
 
 // ThreadInfo.jsp javascript section----------------------------------------------------------------------------
@@ -70,6 +58,21 @@ function showhideFunction(funcEle, Rid) {
 		childForm.reset();
 	}
 }
+
+/*$.ajax({
+				type: "post",
+				url: "searchThreads",
+				data: "thread_name=" + funcEle.value,
+				success: function(res) {
+					console.log(res)
+					$.each(res, function(k,v) {
+						
+					});
+				},
+				error: function(req, err) {
+					console.log("Error" + err);
+				}
+			});*/
 
 /*function likeFunction(funcEle) {
 	var parentEle = funcEle.parentElement;
@@ -110,51 +113,6 @@ function dislikeFunction(funcEle) {
 		dislikebutton.setAttribute("class", "bi bi-hand-thumbs-down");
 	}
 }*/
-
-/*$(document).ready(function() {
-	$('#replyForm').children('button').click(function(e) {
-		e.preventDefault();
-		
-		console.log($('#replyForm').serialize());
-		console.log($(this).attr('action'));
-
-		$.post({
-			url: 'createReply?thread_id=' + $(this).attr('action'),
-			data: $('#formReply').serialize(),
-			success: function(data) {
-				console.log(JSON.stringify(data));
-			},
-			error: function(error) {
-				console.log(error);
-			}
-		});
-	});
-});*/
-
-// Home.jsp javascript section----------------------------------------------------------------------------
-
-function getDateTime() {
-	var d = new Date();
-	var x = document.getElementById("displayDateTime");
-	var date = d.toDateString();
-	var localTime = d.toLocaleTimeString();
-	x.innerHTML = date + "<br/>" + localTime;
-}
-
-getDateTime();
-setInterval(getDateTime,1000);
-
-onload = function() {
-	if(sessionStorage.getItem("scrollPos")) {
-		scrollTo(0, sessionStorage.getItem("scrollPos"));
-		sessionStorage.removeItem("scrollPos");
-	}
-}
-
-function saveScrollLocation() {
-	var x = document.documentElement;
-	sessionStorage.setItem("scrollPos", x.scrollTop);
-}
 
 // Account.jsp javascript section----------------------------------------------------------------------------
 
@@ -225,3 +183,14 @@ function showhideDateofbirth(funcEle) {
 		childForm.reset();
 	}
 }
+
+// Channel.jsp jquery section
+
+$(document).ready(function(){
+	$("#searchBar").on("keyup", function() {
+		var inputVal = $(this).val().toLowerCase();
+		$(".card-title").each(function() {
+			$(this).parent().parent().parent().toggle(($(this).text().toLowerCase().indexOf(inputVal) > -1));
+		});
+	})
+});

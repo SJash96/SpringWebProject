@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,9 +55,14 @@ public class Channels {
 	@JoinColumn(name = "user_id", referencedColumnName = "uid")
 	private Users user;
 	
-	@OneToMany(mappedBy = "channel", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "channel")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OrderBy("threadcreated desc")
 	@JsonIgnoreProperties("channel")
 	private List<Threads> threads;
 	
+	@OneToMany(mappedBy = "channel")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JsonIgnoreProperties("channel")
+	private List<ChannelMembers> members;
 }

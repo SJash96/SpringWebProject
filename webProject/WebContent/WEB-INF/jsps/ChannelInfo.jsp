@@ -38,6 +38,8 @@
 		  </div>
 		</nav>
 		<h6>${threadCreateMessage}</h6>
+		<h6>${threadDeleteMessage}</h6>
+		<h6>${channelJoinMessage}</h6>
 		<div class="container">
 			<div class="card mt-4">
 				<div class="card-body text-muted">
@@ -61,6 +63,18 @@
 	    					<a class="dropdown-item" href="#">Report</a>
 	    				</c:if>
 	  				</div>
+  				</div>
+  				<div class="card-body">
+  					<%-- <c:if test="${currentChannel.getMembers() != null}">
+  						<c:forEach items="${currentChannel.getMembers()}" var="channelMembers">
+  							<c:if test="${channelMembers.getUser().getUsername() != session.getAttribute('user').getUsername()}">
+  								<a href="joinChannel?channel_id=${currentChannel.getCid()}">Join Channel</a>
+  							</c:if>
+  						</c:forEach>
+  					</c:if>
+  					<c:forEach items="${currentChannel.getMembers()}" var="channelMembers">
+  						${channelMembers.getUser().getUsername()}
+  					</c:forEach> --%>
   				</div>
   				<div class="card-body">
 		  			<c:url var="url" value="createThread?channel_id=${currentChannel.getCid()}" />
@@ -107,8 +121,8 @@
 			  			</a>
 			  			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 			  				<c:if test="${channelThreads.getUser().getUsername() == session.getAttribute('user').getUsername()}">
-			    				<a class="dropdown-item" href="#" onclick="saveScrollLocation()">Edit</a>
-			    				<a class="dropdown-item" href="#" onclick="saveScrollLocation()">Delete</a>
+			    				<a class="dropdown-item" href="#">Edit</a>
+			    				<a class="dropdown-item" href="deleteThread?thread_id=${channelThreads.getTid()}">Delete</a>
 			    			</c:if>
 			    			<c:if test="${channelThreads.getUser().getUsername() != session.getAttribute('user').getUsername()}">
 			    				<a class="dropdown-item" href="#">Report</a>

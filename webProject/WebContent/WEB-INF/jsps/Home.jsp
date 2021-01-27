@@ -30,9 +30,12 @@
 		        <a class="nav-link" href="logout">Logout</a>
 		      </li>
 		    </ul>
-		    <div>
-		    	<p class="text-right mb-0 mr-2" id="displayDateTime"></p>
-		    	<p class="text-right mb-0 mr-2">Logged in as: <a href="account">${session.getAttribute('user').getUsername()}</a></p>
+		    <form class="form-inline my-2 my-lg-0">
+      			<input type="text" class="form-control mr-sm-2" oninput="searchForThread(this)" type="search" placeholder="Search" aria-label="Search">
+    		</form>
+		    <div class="text-right">
+		    	<p class="mb-0 mr-2" id="displayDateTime"></p>
+		    	<p class="mb-0 mr-2">Logged in as: <a href="account">${session.getAttribute('user').getUsername()}</a></p>
 		    </div>
 		  </div>
 		</nav>
@@ -97,13 +100,12 @@
 		      </li>
 		    </ul>
 		    <form class="form-inline my-2 my-lg-0">
-      			<input type="text" class="form-control mr-sm-2" oninput="searchForThread(this)" type="search" placeholder="Search" aria-label="Search">
+      			<input id="searchBar" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     		</form>
 		    <div class="text-right" id="displayDateTime"></div>
 		  </div>
 		</nav>
-		<div class="container" id="searchedList" style="display : none;"></div>
-		<div class="container" id="threadList">
+		<div class="container">
 			<c:forEach items="${listOfThreads}" var="allThreads">
 				<div class="card mt-4">
 					<div class="card-body text-muted">
@@ -117,14 +119,14 @@
 	  				<div class="card-body">
 	  					<a href="viewThread?thread_id=${allThreads.getTid()}" class="badge badge-light">
 							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	  							<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-	  							<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+	  							<path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+	  							<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
 							</svg>
 							${allThreads.getReplies().size()} Comments
 						</a>
 						<a class="badge badge-light" href="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    					<svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+  								<path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" />
 							</svg>
 	  					</a>
 		  				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -136,9 +138,9 @@
 		</div>
 	</c:if>
 </body>
-<script type="text/javascript" src="<c:url value="/scripts/script.js" />"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<c:url value="/scripts/script.js" />"></script>
 </body>
 </html>

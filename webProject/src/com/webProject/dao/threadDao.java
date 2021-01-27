@@ -78,40 +78,8 @@ public class threadDao {
 		}
 	}
 	
-	public List<Threads> getThreadByName(String name) {
-		Session sessionObj = null;
-		
-		try {
-			sessionObj = hibernateUtil.getSessionFactory().openSession();
-			sessionObj.beginTransaction();
-			
-			CriteriaBuilder builder = sessionObj.getCriteriaBuilder();
-			CriteriaQuery<Threads> criteria = builder.createQuery(Threads.class);
-			Root<Threads> criteriaThread = criteria.from(Threads.class);
-			criteria.select(criteriaThread).where(builder.like(criteriaThread.get("threadname"), name + '%'));
-			TypedQuery<Threads> query = sessionObj.createQuery(criteria);
-			List<Threads> queryResult = query.getResultList();
-			
-			if(queryResult != null) {
-				return queryResult;
-			}
-			
-			sessionObj.getTransaction().commit();
-			return null;
-		} catch(Exception e) {
-			sessionObj.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		} finally {
-			if(sessionObj != null) {
-				sessionObj.close();
-			}
-		}
-	}
-	
 	public List<Threads> getAllThreads() {
 		Session sessionObj = null;
-		System.out.println(sessionObj = hibernateUtil.getSessionFactory().openSession());
 		
 		try {
 			sessionObj = hibernateUtil.getSessionFactory().openSession();
@@ -139,6 +107,28 @@ public class threadDao {
 				sessionObj.close();
 			}
 		}
+	}
+	
+	public String deleteThread(Threads thread) {
+		Session sessionObj = null;
+		
+		try {
+			sessionObj = hibernateUtil.getSessionFactory().openSession();
+			sessionObj.beginTransaction();
+			
+			sessionObj.delete(thread);
+			
+			sessionObj.getTransaction().commit();
+			return "Thread deleted!";
+		} catch(Exception e) {
+			sessionObj.getTransaction().rollback();
+			e.printStackTrace();
+			return "Error";
+		} finally {
+			if(sessionObj != null) {
+				sessionObj.close();
+			}
+		}	
 	}
 
 }

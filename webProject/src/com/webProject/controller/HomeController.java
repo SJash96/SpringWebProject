@@ -16,6 +16,7 @@ import com.webProject.bean.Replies;
 import com.webProject.bean.Threads;
 import com.webProject.bean.Users;
 import com.webProject.dao.channelDao;
+import com.webProject.dao.channelmemberDao;
 import com.webProject.dao.replyDao;
 import com.webProject.dao.threadDao;
 import com.webProject.dao.usersDao;
@@ -140,18 +141,31 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "viewChannel")
-	public String viewChannel(ModelMap model, @RequestParam int channel_id, @RequestParam(required = false) String threadCreateMessage, HttpServletRequest request) {
+	public String viewChannel(ModelMap model, @RequestParam int channel_id, @RequestParam(required = false) String threadCreateMessage, String threadDeleteMessage, String channelJoinMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		channelDao channeldao = new channelDao();
 		model.addAttribute("currentChannel", channeldao.getChannelById(channel_id));
 		
 		model.addAttribute("threadCreateMessage", threadCreateMessage);
+		model.addAttribute("threadDeleteMessage", threadDeleteMessage);
+		model.addAttribute("channelJoinMessage", channelJoinMessage);
 		
 		model.addAttribute("thread", new Threads());
 		model.addAttribute("session", session);
 		
 		return "ChannelInfo";
+	}
+	
+	@GetMapping(value = "joinChannel")
+	public String joinChannel(ModelMap model, @RequestParam int channel_id, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		channelmemberDao channelmemberdao = new channelmemberDao();
+		channelDao channeldao = new channelDao();
+		model.addAttribute("channelJoinMessage", channelmemberdao.addchannelMember(channeldao.getChannelById(channel_id), (Users) session.getAttribute("user")));
+		
+		return "redirect:/viewChannel?channel_id=" + channel_id;
 	}
 	
 	@PostMapping(value = "createThread")
@@ -181,6 +195,16 @@ public class HomeController {
 		return "ThreadInfo";
 	}
 	
+	@GetMapping(value = "deleteThread")
+	public String deleteThread(ModelMap model, @RequestParam int thread_id) {
+		
+		threadDao threaddao = new threadDao();
+		Threads thread = threaddao.getThreadById(thread_id);
+		model.addAttribute("threadDeleteMessage", threaddao.deleteThread(thread));
+		
+		return "redirect:/viewChannel?channel_id=" + thread.getChannel().getCid();
+	}
+	
 	@PostMapping(value = "createReply")
 	public String createReply(ModelMap model, @ModelAttribute("reply") Replies reply, @RequestParam int thread_id, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
@@ -192,16 +216,6 @@ public class HomeController {
 		return "redirect:/viewThread?thread_id=" + thread_id;
 	}
 	
-	@GetMapping(value = "deleteReply")
-	public String deleteReply(ModelMap model, @RequestParam int reply_id) {
-		
-		replyDao replydao = new replyDao();
-		Replies reply = replydao.getReplyById(reply_id);
-		model.addAttribute("replyDeleteMessage", replydao.deleteReply(reply));
-		
-		return "ThreadInfo";
-	}
-	
 	@PostMapping(value = "editReply")
 	public String deleteReply(ModelMap model, @ModelAttribute("reply") Replies reply, @RequestParam int reply_id) {
 		
@@ -210,5 +224,15 @@ public class HomeController {
 		replydao.updateReply(reply_id, reply);
 		
 		return "redirect:/viewThread?thread_id=" + edreply.getThread().getTid();
+	}
+	
+	@GetMapping(value = "deleteReply")
+	public String deleteReply(ModelMap model, @RequestParam int reply_id) {
+		
+		replyDao replydao = new replyDao();
+		Replies reply = replydao.getReplyById(reply_id);
+		model.addAttribute("replyDeleteMessage", replydao.deleteReply(reply));
+		
+		return "redirect:/viewThread?thread_id=" + reply.getThread().getTid();
 	}
 }

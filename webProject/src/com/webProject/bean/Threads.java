@@ -14,8 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,7 +38,7 @@ public class Threads {
 	private String threadname;
 	private String threadpost;
 //	@Temporal(value = TemporalType.TIMESTAMP)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.S", timezone = "EST")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMMM dd yyyy hh:mm a z", timezone = "EST")
 	private Timestamp threadcreated;
 	
 	@ManyToOne(optional = false)
@@ -48,7 +49,8 @@ public class Threads {
 	@JoinColumn(name = "channel_id", referencedColumnName = "cid")
 	private Channels channel;
 	
-	@OneToMany(mappedBy = "thread", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "thread")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OrderBy("replycreated desc")
 	@JsonIgnoreProperties("thread")
 	private List<Replies> replies;
