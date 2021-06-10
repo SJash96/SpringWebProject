@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.webProject.bean.ChannelMembers;
 import com.webProject.bean.Channels;
 import com.webProject.bean.Replies;
 import com.webProject.bean.Threads;
@@ -141,15 +143,33 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "viewChannel")
-	public String viewChannel(ModelMap model, @RequestParam int channel_id, @RequestParam(required = false) String threadCreateMessage, String threadDeleteMessage, String channelJoinMessage, HttpServletRequest request) {
+	public String viewChannel(ModelMap model, @RequestParam int channel_id, @RequestParam(required = false) String threadCreateMessage, String threadDeleteMessage, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		channelDao channeldao = new channelDao();
 		model.addAttribute("currentChannel", channeldao.getChannelById(channel_id));
 		
+		if(session != null) {
+			if(channeldao.getChannelById(channel_id).getMembers().size() == 0) {
+				model.addAttribute("isMember", "display : none");
+				model.addAttribute("notMember", "display : ");
+			}
+			else {
+				for(ChannelMembers member : channeldao.getChannelById(channel_id).getMembers()) {
+					if(member.getUser().equals((Users) session.getAttribute("user"))) {
+						model.addAttribute("notMember", "display : none");
+						model.addAttribute("isMember", "display : ");
+					}
+					else {
+						model.addAttribute("isMember", "display : none");
+						model.addAttribute("notMember", "display : ");
+					}
+				}
+			}
+		}
+		
 		model.addAttribute("threadCreateMessage", threadCreateMessage);
 		model.addAttribute("threadDeleteMessage", threadDeleteMessage);
-		model.addAttribute("channelJoinMessage", channelJoinMessage);
 		
 		model.addAttribute("thread", new Threads());
 		model.addAttribute("session", session);
@@ -158,14 +178,32 @@ public class HomeController {
 	}
 	
 	@GetMapping(value = "joinChannel")
-	public String joinChannel(ModelMap model, @RequestParam int channel_id, HttpServletRequest request) {
+	@ResponseBody
+	public Channels joinChannel(ModelMap model, @RequestParam int channel_id, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
 		channelmemberDao channelmemberdao = new channelmemberDao();
 		channelDao channeldao = new channelDao();
-		model.addAttribute("channelJoinMessage", channelmemberdao.addchannelMember(channeldao.getChannelById(channel_id), (Users) session.getAttribute("user")));
+		channelmemberdao.addchannelMember(channeldao.getChannelById(channel_id), (Users) session.getAttribute("user"));
 		
-		return "redirect:/viewChannel?channel_id=" + channel_id;
+		return channeldao.getChannelById(channel_id);
+	}
+	
+	@GetMapping(value = "leaveChannel")
+	@ResponseBody
+	public Channels leaveChannel(ModelMap model, @RequestParam int channel_id, HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		channelmemberDao channelmemberdao = new channelmemberDao();
+		channelDao channeldao = new channelDao();
+		
+		for(ChannelMembers member : channeldao.getChannelById(channel_id).getMembers()) {
+			if(member.getUser().equals((Users) session.getAttribute("user"))) {
+				channelmemberdao.removechannelMember(member);
+			}
+		}
+		
+		return channeldao.getChannelById(channel_id);
 	}
 	
 	@PostMapping(value = "createThread")

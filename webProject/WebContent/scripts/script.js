@@ -17,18 +17,6 @@ function getDateTime() {
 getDateTime();
 setInterval(getDateTime,1000);
 
-onload = function() {
-	if(sessionStorage.getItem("scrollPos")) {
-		scrollTo(0, sessionStorage.getItem("scrollPos"));
-		sessionStorage.removeItem("scrollPos");
-	}
-}
-
-function saveScrollLocation() {
-	var x = document.documentElement;
-	sessionStorage.setItem("scrollPos", x.scrollTop);
-}
-
 $(document).ready(function(){
 	$("#searchBar").on("keyup", function() {
 		var inputVal = $(this).val().toLowerCase();
@@ -37,6 +25,10 @@ $(document).ready(function(){
 		});
 	})
 });
+
+/*document.onvisibilitychange = function() {
+	
+}*/
 
 
 // ThreadInfo.jsp javascript section----------------------------------------------------------------------------
@@ -58,21 +50,6 @@ function showhideFunction(funcEle, Rid) {
 		childForm.reset();
 	}
 }
-
-/*$.ajax({
-				type: "post",
-				url: "searchThreads",
-				data: "thread_name=" + funcEle.value,
-				success: function(res) {
-					console.log(res)
-					$.each(res, function(k,v) {
-						
-					});
-				},
-				error: function(req, err) {
-					console.log("Error" + err);
-				}
-			});*/
 
 /*function likeFunction(funcEle) {
 	var parentEle = funcEle.parentElement;
@@ -194,3 +171,47 @@ $(document).ready(function(){
 		});
 	})
 });
+
+// ChannelInfo.jsp jquey section
+
+function joinChannel(CID, user) {
+	$.ajax({
+		type: "get",
+		url: "joinChannel",
+		data: "channel_id=" + CID,
+		success: function(res) {
+			$.each(res.members, function(k,v) {
+				if(v.user.username == user) {
+					$("#channelJoinButtons").children().eq(0).attr('style', 'display : none');
+					$("#channelJoinButtons").children().eq(1).attr('style', '');
+				}
+			});
+		},
+		error: function(req, err) {
+			console.log("Error" + err);
+		}
+	});
+}
+
+function leaveChannel(CID, user) {
+	$.ajax({
+		type: "get",
+		url: "leaveChannel",
+		data: "channel_id=" + CID,
+		success: function(res) {
+			var memberRemoved = true;
+			$.each(res.members, function(k,v) {
+				if(v.user.username == user) {
+					memberRemoved = false;
+				}
+			});
+			if(memberRemoved) {
+				$("#channelJoinButtons").children().eq(0).attr('style', '');
+				$("#channelJoinButtons").children().eq(1).attr('style', 'display : none');
+			}
+		},
+		error: function(req, err) {
+			console.log("Error" + err);
+		}
+	});
+}

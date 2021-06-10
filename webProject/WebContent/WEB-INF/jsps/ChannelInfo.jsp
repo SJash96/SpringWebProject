@@ -39,12 +39,17 @@
 		</nav>
 		<h6>${threadCreateMessage}</h6>
 		<h6>${threadDeleteMessage}</h6>
-		<h6>${channelJoinMessage}</h6>
 		<div class="container">
 			<div class="card mt-4">
-				<div class="card-body text-muted">
-					Posted by <b>${currentChannel.getUser().getUsername()}</b>
-					on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${currentChannel.getChannelcreated()}" />
+				<div class="card-body">
+					<div class="d-inline text-muted">
+						Posted by <b>${currentChannel.getUser().getUsername()}</b>
+						on <fmt:formatDate pattern="MMMM dd yyyy hh:mm a z" value="${currentChannel.getChannelcreated()}" />
+					</div>
+					<div id="channelJoinButtons" class="d-inline float-right text-muted">
+						<button class="btn btn-outline-success" style="${notMember}" onclick="joinChannel(${currentChannel.getCid()}, '${session.getAttribute('user').getUsername()}')">Join Channel</button>
+						<button class="btn btn-outline-danger" style="${isMember}" onclick="leaveChannel(${currentChannel.getCid()}, '${session.getAttribute('user').getUsername()}')">Leave Channel</button>
+					</div>
 				</div>
   				<div class="card-body">
   					<h3 class="card-title">${currentChannel.getChannelname()}</h3>
@@ -64,18 +69,16 @@
 	    				</c:if>
 	  				</div>
   				</div>
-  				<div class="card-body">
-  					<%-- <c:if test="${currentChannel.getMembers() != null}">
-  						<c:forEach items="${currentChannel.getMembers()}" var="channelMembers">
-  							<c:if test="${channelMembers.getUser().getUsername() != session.getAttribute('user').getUsername()}">
-  								<a href="joinChannel?channel_id=${currentChannel.getCid()}">Join Channel</a>
-  							</c:if>
-  						</c:forEach>
-  					</c:if>
-  					<c:forEach items="${currentChannel.getMembers()}" var="channelMembers">
-  						${channelMembers.getUser().getUsername()}
-  					</c:forEach> --%>
-  				</div>
+  				<c:if test="${currentChannel.getMembers() != null}">
+	  				<div class="card-body">
+	  					<c:forEach items="${currentChannel.getMembers()}" var="channelMembers">
+	  						<c:if test="${channelMembers.getUser().getUsername() == session.getAttribute('user').getUsername()}">
+	  							<c:set var="isMember" value="${true}"></c:set>
+	  						</c:if>
+	  						${channelMembers.getUser().getUsername()}
+	  					</c:forEach>
+	  				</div>
+  				</c:if>
   				<div class="card-body">
 		  			<c:url var="url" value="createThread?channel_id=${currentChannel.getCid()}" />
 					<form:form modelAttribute="thread" method="post" action="${url}">
@@ -215,8 +218,8 @@
 	</c:if>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="<c:url value="/scripts/script.js" />"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script type="text/javascript" src="<c:url value="/scripts/script.js" />"></script>
 </body>
 </html>
