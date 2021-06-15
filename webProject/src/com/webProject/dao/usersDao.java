@@ -3,18 +3,27 @@ package com.webProject.dao;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.webProject.bean.Users;
 import com.webProject.util.hibernateUtil;
 
 
 public class usersDao {
+	PasswordEncoder encoder;
+	
+	public usersDao() {
+		encoder = new BCryptPasswordEncoder();
+	}
 	
 //	Next Task: Create a better check verification upon user creation.
 	public String createUser(Users user) {
@@ -26,14 +35,17 @@ public class usersDao {
 			
 			Date today = new Date(System.currentTimeMillis());
 			user.setDateusercreated(today);
+			user.setPassword(encoder.encode(user.getPassword()));
 			sessionObj.save(user);
 			
 			sessionObj.getTransaction().commit();
 			return "User has been saved!";
+		} catch(ConstraintViolationException se) {
+			return se.getCause().getMessage();
 		} catch(Exception e) {
 			sessionObj.getTransaction().rollback();
 			e.printStackTrace();
-			return "User already exists";
+			return e.getMessage();
 		} finally {
 			if(sessionObj != null) {
 				sessionObj.close();
@@ -111,16 +123,24 @@ public class usersDao {
 			sessionObj = hibernateUtil.getSessionFactory().openSession();
 			sessionObj.beginTransaction();
 			
+			
 			CriteriaBuilder builder = sessionObj.getCriteriaBuilder();
 			CriteriaQuery<Users> criteria = builder.createQuery(Users.class);
 			Root<Users> criteriaUser = criteria.from(Users.class);
-			criteria.select(criteriaUser).where(builder.equal(criteriaUser.get("username"), user.getUsername()), builder.equal(criteriaUser.get("password"), user.getPassword()));
+			criteria.select(criteriaUser).where(builder.equal(criteriaUser.get("username"), user.getUsername()));
 			TypedQuery<Users> query = sessionObj.createQuery(criteria);
 			Users queryUser = query.getSingleResult();
 			
 			if(queryUser != null) {
-				return queryUser;
+				if(encoder.matches(user.getPassword(), queryUser.getPassword())) {
+					return queryUser;
+				}
+				return null;
 			}
+			return null;
+		} catch(NoResultException re) {
+			sessionObj.getTransaction().rollback();
+			re.printStackTrace();
 			return null;
 		} catch(Exception e) {
 			sessionObj.getTransaction().rollback();
